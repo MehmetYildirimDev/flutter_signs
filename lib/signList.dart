@@ -1,21 +1,25 @@
-import 'dart:ffi';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_signs/data/strings.dart';
 import 'package:flutter_signs/model/signModel.dart';
+import 'package:flutter_signs/signItem.dart';
 
 class SignList extends StatelessWidget {
-  late List<Sign> allSigns;
+  late final List<Sign> allSigns;
   SignList() {
-    List<Sign> allSigns = prepareDataSource();
+    allSigns = prepareDataSource();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Text('Sign List')),
-      body: const Center(
-        child: Text('Burc Listesi'),
+      body: Center(
+        child: ListView.builder(
+          itemBuilder: (context, index) {
+            return SignItem(listedSign: allSigns[index]);
+          },
+          itemCount: allSigns.length,
+        ),
       ),
     );
   }
@@ -28,9 +32,9 @@ class SignList extends StatelessWidget {
         name: Strings.BURC_ADLARI[i],
         date: Strings.BURC_TARIHLERI[i],
         detail: Strings.BURC_GENEL_OZELLIKLERI[i],
-        smallPicture: '${Strings.BURC_ADLARI[i].toLowerCase()}${i + 1}.png)',
+        smallPicture: '${Strings.BURC_ADLARI[i].toLowerCase()}${i + 1}.png',
         largePicture:
-            '${Strings.BURC_ADLARI[i].toLowerCase()}_buyuk${i + 1}.png)',
+            '${Strings.BURC_ADLARI[i].toLowerCase()}_buyuk${i + 1}.png',
       );
       tempList.add(signToAdd);
     }
